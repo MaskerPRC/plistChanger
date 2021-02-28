@@ -118,9 +118,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet weak var iimg_list: NSTableView!
     
     var dataPlist: [String] = []
+    var nowImg: NSImage = NSImage()
     var nowImgs: [NSImage] = []
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.tag == 2 {
+            //根据当前选中的plist文件，获取图片个数
             return nowImgs.count;
         }
         return getData().count;
@@ -146,11 +148,16 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         else {
             let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
             let content = getData()[row];
-            cell?.textField?.stringValue = content;
+            let pos = content.positionOf(sub: "/Resources/")
+            cell?.textField?.stringValue = (content as NSString).substring(from: pos+11);
             return cell;
         }
     }
-
+    
+    func tableViewSelectionIsChanging(_ notification: Notification) {
+        print(11)
+    }
+    
     override func viewDidAppear() {
         super.viewDidAppear();
         self.view.window!.title = "Plist换皮助手";
@@ -160,9 +167,19 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         drop1.delegate = self
         imgDrag.delegate = self
     }
+//
+//    private func getAllImagePlist() -> [NSImage] {
+//        let imgs: [NSImage] = []
+//        if let path = Bundle.main.path(forResource: "apps", ofType: "plist"),
+//               let root = (NSArray(contentsOfFile: path))
+//           {
+//               let url = NSURL(string: path)
+//               let data = NSData(contentsOf: url! as URL)
+//               if let imageData = crop
+//           }
+//        }
+//    }
 }
-
-
 
 
 extension ViewController: DestinationViewDelegate {
@@ -171,7 +188,10 @@ extension ViewController: DestinationViewDelegate {
         // tipsTextField.stringValue = String("\(Int(image.size.width))x\(Int(image.size.height))")
 //        destinationImageView.image = image
         // 只要有拖动，就将拖动行为记录，放入堆栈中，异步去将堆栈行为执行
-        nowImgs.append(image)
+        
+        let subImg = image.trim(rect: CGRect(x: 0, y: 0, width: 100, height: 100))
+        nowImgs.append(subImg)
+        
         iimg_list.reloadData()
     }
 }
@@ -184,8 +204,7 @@ extension ViewController: DestinationPlistViewDelegate {
         dataPlist = []
         for item in files {
             let articleString = item.absoluteString
-            let pos = articleString.positionOf(sub: "/Resources/")
-            dataPlist.append((articleString as NSString).substring(from: pos+11))
+            dataPlist.append(articleString as String)
         }
         table_view.reloadData()
 //        for item in files {
@@ -193,4 +212,82 @@ extension ViewController: DestinationPlistViewDelegate {
 //
 //        }
     }
+}
+
+extension NSImage {
+    // 截取部分图片
+//    func imageAtRect(rect: NSRect) -> NSImage{
+//        let newSize = NSSize(width: rect.width, height: rect.height)
+//        let newImage = NSImage(size: newSize, flipped: true, drawingHandler: { (rect) -> Bool in
+//            self.draw(in: rect)
+//            return true
+//        })
+//
+//        return newImage
+//    }
+//
+        // The height of the image.
+       var height: CGFloat {
+           return size.height
+       }
+       
+       // The width of the image.
+       var width: CGFloat {
+           return size.width
+       }
+       
+    
+//    func resize(withSize targetSize: NSSize, x: CGFloat, y: CGFloat) -> NSImage? {
+//        let frame = NSRect(x: x, y: y, width: targetSize.width, height: targetSize.height)
+//          guard let representation = self.bestRepresentation(for: frame, context: nil, hints: nil) else {
+//              return nil
+//          }
+//          let image = NSImage(size: targetSize, flipped: false, drawingHandler: { Bool in
+//              return representation.draw(in: frame)
+//          })
+//
+//          return image
+//      }
+//    func resizeMaintainingAspectRatio(withSize targetSize: NSSize, x: CGFloat, y: CGFloat) -> NSImage? {
+//            let newSize: NSSize
+//            let widthRatio  = targetSize.width / self.width
+//            let heightRatio = targetSize.height / self.height
+//
+//            if widthRatio > heightRatio {
+//                newSize = NSSize(width: floor(self.width * widthRatio),
+//                                 height: floor(self.height * widthRatio))
+//            } else {
+//                newSize = NSSize(width: floor(self.width * heightRatio),
+//                                 height: floor(self.height * heightRatio))
+//            }
+//            return self.resize(withSize: newSize, x: 0, y: 0)
+//        }
+    
+    func trim(rect: CGRect) -> NSImage {
+        let result = NSImage(size: rect.size)
+        result.lockFocus()
+
+        let destRect = CGRect(origin: .zero, size: result.size)
+        self.draw(in: destRect, from: rect, operation: .copy, fraction: 1.0)
+
+        result.unlockFocus()
+        return result
+    }
+    
+//    func crop(toSize targetSize: NSSize, x: CGFloat, y: CGFloat) -> NSImage? {
+//           guard let resizedImage = self.resizeMaintainingAspectRatio(withSize: targetSize, x: x, y: y) else {
+//               return NSImage()
+//           }
+//           let frame = NSRect(x: -50, y: -50, width: 100, height: 100)
+//
+//           guard let representation = resizedImage.bestRepresentation(for: frame, context: nil, hints: nil) else {
+//               return nil
+//           }
+//////
+//        let image = NSImage(size: NSSize(width: 200, height: 200), flipped: false, drawingHandler: { (destinationRect: NSRect) -> Bool in
+//                return representation.draw(in: destinationRect)
+//           })
+////
+//           return image
+//       }
 }

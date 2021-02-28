@@ -863,16 +863,21 @@
                                 </subviews>
                             </customView>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJD-9y-aKf">
-                                <rect key="frame" x="497" y="52" width="259" height="410"/>
+                                <rect key="frame" x="433" y="52" width="323" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PpP-5Z-Auh">
-                                        <rect key="frame" x="-24" y="-36" width="296" height="482"/>
+                                        <rect key="frame" x="0.0" y="-30" width="323" height="446"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </colorWell>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IcU-E4-aim">
+                                        <rect key="frame" x="0.0" y="0.0" width="323" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="GNr-8N-uru"/>
+                                    </imageView>
                                     <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-jD-ERg" customClass="DestinationView" customModule="plistChanger" customModuleProvider="target">
-                                        <rect key="frame" x="-11" y="-20" width="270" height="451"/>
+                                        <rect key="frame" x="-9" y="-20" width="341" height="436"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="450" id="23U-m0-y0j"/>
                                             <constraint firstAttribute="width" secondItem="Oe2-jD-ERg" secondAttribute="height" multiplier="1:1" id="Gmp-Zi-ndi"/>
@@ -886,6 +891,7 @@
                         <outlet property="drop1" destination="iFa-4d-M9H" id="1Ra-vK-psZ"/>
                         <outlet property="iimg_list" destination="cJi-Bf-Fhg" id="52L-ep-ngJ"/>
                         <outlet property="imgDrag" destination="Oe2-jD-ERg" id="kFB-KG-gbF"/>
+                        <outlet property="imgShow" destination="IcU-E4-aim" id="ylh-Mq-XHU"/>
                         <outlet property="img_list" destination="MCk-uM-cQY" id="Kk8-79-R5f"/>
                         <outlet property="list" destination="ceT-KY-Ijb" id="PyW-ik-5Ka"/>
                         <outlet property="table_view" destination="MCk-uM-cQY" id="9Lt-8y-HPZ"/>

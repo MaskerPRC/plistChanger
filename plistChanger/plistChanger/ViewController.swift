@@ -7,6 +7,8 @@
 
 import Cocoa
 import Foundation
+import PythonKit
+
 
 struct ImageItem {
     var image: NSImage
@@ -153,11 +155,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
 
     override func viewDidLoad() {
+        PythonLibrary.useVersion(2,7)
         super.viewDidLoad();
         configDestinationView()
         table_view.reloadData()
         iimg_list.reloadData()
     }
+    
+    func runPythonCode(dirPath: String, plistPath:String){
+            let sys = Python.import("sys")
+            sys.path.append(dirPath)
+            let os = Python.import("os")
+            let pkgutil = Python.import("pkgutil")
+        let PIL1 = Python.import("PIL")
+        
+        let etree = Python.import("xml.etree")
+            let plistUnpack = Python.import("plistUnpack")
+        let response = plistUnpack.doIt(plistPath, os, pkgutil, PIL1, etree)
+        }
     
     internal func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.tag == 2 {
@@ -362,14 +377,18 @@ extension ViewController: DestinationViewDelegate {
         //替换png的路径
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
+        let cwd = FileManager.default.currentDirectoryPath
+        print("script run from:\n" + cwd)
+        
         if indexPlist != -1 && indexImage != -1 {
             let plistPath = URL(string: dataPlist[indexPlist])?.path
 //            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
-            shell("python "+NSHomeDirectory()+"/py/plistUnpack.py "+plistPath!)
-            shell("cp "+imageUrl.path + " " + plistPath!)
-            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
+//            runPythonCode(dirPath: "/Users/songjiaheng/Documents/", plistPath: plistPath!)
+//            shell("python ~/Documents/plistUnpack.py "+plistPath!)
+//            shell("cp "+imageUrl.path + " " + plistPath!)
+//            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
-            
+           
             //开始下一步的替换
             
             table_view.reloadData()

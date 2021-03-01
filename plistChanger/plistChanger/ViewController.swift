@@ -363,10 +363,11 @@ extension ViewController: DestinationViewDelegate {
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
         if indexPlist != -1 && indexImage != -1 {
-            var plistPath = URL(string: dataPlist[indexPlist])?.path
+            let plistPath = URL(string: dataPlist[indexPlist])?.path
 //            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
             shell("python "+NSHomeDirectory()+"/py/plistUnpack.py "+plistPath!)
-            shell("ls")
+            shell("cp "+imageUrl.path + " " + plistPath!)
+            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
             
             //开始下一步的替换

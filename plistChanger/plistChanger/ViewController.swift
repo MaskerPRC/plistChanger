@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import Foundation
 
 struct ImageItem {
     var image: NSImage
@@ -334,6 +335,16 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 }
 
 
+@discardableResult
+func shell(_ args: String...) -> Int32 {
+    let task = Process()
+    task.launchPath = "/usr/bin/env"
+    task.arguments = args
+    task.launch()
+    task.waitUntilExit()
+    return task.terminationStatus
+}
+
 extension ViewController: DestinationViewDelegate {
     
     func processImage(_ imageUrl: URL) {
@@ -351,6 +362,7 @@ extension ViewController: DestinationViewDelegate {
         //替换png的路径
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
+        shell("ls")
         //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
         //开始下一步的替换
         iimg_list.reloadData()

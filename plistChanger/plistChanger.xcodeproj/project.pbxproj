@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E11E62FD25ECA0E2005A21CE /* plistUnpack.py in Resources */ = {isa = PBXBuildFile; fileRef = E11E62FB25ECA0E2005A21CE /* plistUnpack.py */; };
+		E11E62FE25ECA0E2005A21CE /* plistPack.py in Resources */ = {isa = PBXBuildFile; fileRef = E11E62FC25ECA0E2005A21CE /* plistPack.py */; };
+		E11E630225ECA5B7005A21CE /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630125ECA5B7005A21CE /* PythonKit */; };
+		E11E630625ECA611005A21CE /* PerfectPython in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630525ECA611005A21CE /* PerfectPython */; };
 		E1E81D4B25E7963300663DD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E81D4A25E7963300663DD0 /* AppDelegate.swift */; };
 		E1E81D4D25E7963300663DD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E81D4C25E7963300663DD0 /* ViewController.swift */; };
 		E1E81D4F25E7963500663DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1E81D4E25E7963500663DD0 /* Assets.xcassets */; };
@@ -15,6 +19,8 @@
 
 /* Begin PBXFileReference section */
 		E11E62F625EA99DC005A21CE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E11E62FB25ECA0E2005A21CE /* plistUnpack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistUnpack.py; sourceTree = "<group>"; };
+		E11E62FC25ECA0E2005A21CE /* plistPack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistPack.py; sourceTree = "<group>"; };
 		E1E81D4725E7963300663DD0 /* plistChanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plistChanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E81D4A25E7963300663DD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1E81D4C25E7963300663DD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,19 +35,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E11E630625ECA611005A21CE /* PerfectPython in Frameworks */,
+				E11E630225ECA5B7005A21CE /* PythonKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E11E62FA25ECA063005A21CE /* py */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = py;
-			sourceTree = "<group>";
-		};
 		E1E81D3E25E7963300663DD0 = {
 			isa = PBXGroup;
 			children = (
@@ -63,7 +64,8 @@
 			children = (
 				E1E81D4A25E7963300663DD0 /* AppDelegate.swift */,
 				E1E81D4C25E7963300663DD0 /* ViewController.swift */,
-				E11E62FA25ECA063005A21CE /* py */,
+				E11E62FC25ECA0E2005A21CE /* plistPack.py */,
+				E11E62FB25ECA0E2005A21CE /* plistUnpack.py */,
 				E1E81D4E25E7963500663DD0 /* Assets.xcassets */,
 				E1E81D5025E7963500663DD0 /* Main.storyboard */,
 				E1E81D5325E7963500663DD0 /* Info.plist */,
@@ -88,6 +90,10 @@
 			dependencies = (
 			);
 			name = plistChanger;
+			packageProductDependencies = (
+				E11E630125ECA5B7005A21CE /* PythonKit */,
+				E11E630525ECA611005A21CE /* PerfectPython */,
+			);
 			productName = plistChanger;
 			productReference = E1E81D4725E7963300663DD0 /* plistChanger.app */;
 			productType = "com.apple.product-type.application";
@@ -115,6 +121,10 @@
 				Base,
 			);
 			mainGroup = E1E81D3E25E7963300663DD0;
+			packageReferences = (
+				E11E630025ECA5B7005A21CE /* XCRemoteSwiftPackageReference "PythonKit" */,
+				E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */,
+			);
 			productRefGroup = E1E81D4825E7963300663DD0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -130,6 +140,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E81D4F25E7963500663DD0 /* Assets.xcassets in Resources */,
+				E11E62FD25ECA0E2005A21CE /* plistUnpack.py in Resources */,
+				E11E62FE25ECA0E2005A21CE /* plistPack.py in Resources */,
 				E1E81D5225E7963500663DD0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +352,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E11E630025ECA5B7005A21CE /* XCRemoteSwiftPackageReference "PythonKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pvieito/PythonKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PerfectlySoft/Perfect-Python.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E11E630125ECA5B7005A21CE /* PythonKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E630025ECA5B7005A21CE /* XCRemoteSwiftPackageReference "PythonKit" */;
+			productName = PythonKit;
+		};
+		E11E630525ECA611005A21CE /* PerfectPython */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */;
+			productName = PerfectPython;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E1E81D3F25E7963300663DD0 /* Project object */;
 }

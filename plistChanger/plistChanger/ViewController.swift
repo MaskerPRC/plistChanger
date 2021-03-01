@@ -362,10 +362,22 @@ extension ViewController: DestinationViewDelegate {
         //替换png的路径
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
-        shell("ls")
-        //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
-        //开始下一步的替换
-        iimg_list.reloadData()
+        if indexPlist != -1 && indexImage != -1 {
+            var plistPath = URL(string: dataPlist[indexPlist])?.path
+//            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
+            shell("python "+NSHomeDirectory()+"/py/plistUnpack.py "+plistPath!)
+            shell("ls")
+            //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
+            
+            //开始下一步的替换
+            
+            table_view.reloadData()
+            table_view.selectRowIndexes(IndexSet(integer: indexPlist), byExtendingSelection: false)
+//            nowImgs = []
+//            iimg_list.reloadData()
+            imgShow.image = NSImage()
+        }
+        
     }
 }
 

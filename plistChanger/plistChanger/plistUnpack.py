@@ -71,8 +71,7 @@ def genPngFromPlist(plist_filename):
         result_image.save(outfile)
     return file_path
 
-if __name__ == "__main__":
-    fullpath = sys.argv[1]
+def doIt(fullpath):
 
     if not pkgutil.find_loader("PIL"):
         print Orange("请输入Mac登录密码安装插件需要的依赖库:")

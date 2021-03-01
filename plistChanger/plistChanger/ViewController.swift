@@ -114,7 +114,9 @@ class CustomCellTableViewCell: NSTableCellView {
 
 
     @IBOutlet weak var myImageView: NSImageView!
-
+    @IBOutlet weak var myTextView: NSTextField!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -160,6 +162,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if tableView.tag == 2 {
             let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? CustomCellTableViewCell
             cell?.myImageView?.image = nowImgs[row]
+            cell?.myTextView?.stringValue = dataList[row].name
             return cell;
         }
         else {
@@ -180,18 +183,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             return
         }
         let index = view.selectedRow
-        let fileUrl = self.dataPlist[index];
-        let pos = fileUrl.positionOf(sub: ".plist")
-        var imgFilePath = (fileUrl as NSString).substring(to: pos);
-        imgFilePath += ".png";
-        
-        parseImage(url: URL(string: imgFilePath)!)
-        parsePlist(url: URL(string: fileUrl)!)
-        nowImgs = []
-        plitImage()
-        
-        
-        iimg_list.reloadData()
+        if index > -1 {
+            let fileUrl = self.dataPlist[index];
+            let pos = fileUrl.positionOf(sub: ".plist")
+            var imgFilePath = (fileUrl as NSString).substring(to: pos);
+            imgFilePath += ".png";
+            
+            parseImage(url: URL(string: imgFilePath)!)
+            parsePlist(url: URL(string: fileUrl)!)
+            nowImgs = []
+            plitImage()
+            
+            
+            iimg_list.reloadData()
+        }
+        else {
+            nowImgs = []
+            iimg_list.reloadData()
+        }
     }
     
     override func viewDidAppear() {

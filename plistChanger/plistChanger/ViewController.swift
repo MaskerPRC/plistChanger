@@ -9,7 +9,6 @@ import Cocoa
 import Foundation
 import PythonKit
 
-
 struct ImageItem {
     var image: NSImage
     var name: String
@@ -375,17 +374,36 @@ extension ViewController: DestinationViewDelegate {
         let indexImage = iimg_list.selectedRow
         //被替换的png路径
         //替换png的路径
+        
+        
+        
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
-        let cwd = FileManager.default.currentDirectoryPath
+        let cwd = "/Users/songjiaheng/script/"
         print("script run from:\n" + cwd)
+        
+        
+        let sys = Python.import("sys")
+          sys.path.append(cwd)
+        let shutil = Python.import("shutil")
+        let pkgutil = Python.import("pkgutil")
+        let os = Python.import("os")
+        let Image = Python.import("Image")
+        let etree = Python.import("xml.etree")
+        let plistPack = Python.import("plistPack")
+        let plistUnpack = Python.import("plistUnpack")
+       
+        print(Python.version)
+        
         
         if indexPlist != -1 && indexImage != -1 {
             let plistPath = URL(string: dataPlist[indexPlist])?.path
+            
+            plistUnpack.doIt(plistPath, sys, shutil, pkgutil, os, Image, etree)
 //            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
 //            runPythonCode(dirPath: "/Users/songjiaheng/Documents/", plistPath: plistPath!)
 //            shell("python ~/Documents/plistUnpack.py "+plistPath!)
-//            shell("cp "+imageUrl.path + " " + plistPath!)
+            shell("cp "+imageUrl.path + " " + plistPath!)
 //            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
            

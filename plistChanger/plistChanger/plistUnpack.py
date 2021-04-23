@@ -6,10 +6,6 @@
 # order: 210
 # icon: Icons/unpack.png
 
-import sys
-import os
-import os,sys
-import pkgutil
 
 from xml.etree import ElementTree
 

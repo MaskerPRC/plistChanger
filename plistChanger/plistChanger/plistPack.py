@@ -8,10 +8,6 @@
 # submenu: remove 打包并删除文件夹
 # submenu: keep 打包并保留文件夹
 
-import sys
-import os
-import shutil
-import os,sys
 
 def Red(str):
     return "\033[31m%s\033[0m"%(str)
@@ -90,7 +86,7 @@ def CheckFolder(fullpath):
                 print Red("打包失败，文件名中包含空格")
                 exit(-1)
 
-if __name__ == "__main__":
+def mmain():
     fullpath = sys.argv[1]
     isKeep = len(sys.argv) > 4 and sys.argv[4] == "keep"
     CheckTexturePacker()

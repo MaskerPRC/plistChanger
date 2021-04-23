@@ -11,6 +11,8 @@
 		E11E62FE25ECA0E2005A21CE /* plistPack.py in Resources */ = {isa = PBXBuildFile; fileRef = E11E62FC25ECA0E2005A21CE /* plistPack.py */; };
 		E11E630225ECA5B7005A21CE /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630125ECA5B7005A21CE /* PythonKit */; };
 		E11E630625ECA611005A21CE /* PerfectPython in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630525ECA611005A21CE /* PerfectPython */; };
+		E191455A2616D14000FF2056 /* plistChanger in Resources */ = {isa = PBXBuildFile; fileRef = E19145592616D13F00FF2056 /* plistChanger */; };
+		E191455D2616D14E00FF2056 /* plistChanger in Resources */ = {isa = PBXBuildFile; fileRef = E191455C2616D14E00FF2056 /* plistChanger */; };
 		E1E81D4B25E7963300663DD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E81D4A25E7963300663DD0 /* AppDelegate.swift */; };
 		E1E81D4D25E7963300663DD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E81D4C25E7963300663DD0 /* ViewController.swift */; };
 		E1E81D4F25E7963500663DD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1E81D4E25E7963500663DD0 /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 		E11E62F625EA99DC005A21CE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E11E62FB25ECA0E2005A21CE /* plistUnpack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistUnpack.py; sourceTree = "<group>"; };
 		E11E62FC25ECA0E2005A21CE /* plistPack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistPack.py; sourceTree = "<group>"; };
+		E19145592616D13F00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; name = plistChanger; sourceTree = "<group>"; };
+		E191455C2616D14E00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; name = plistChanger; sourceTree = "<group>"; };
 		E1E81D4725E7963300663DD0 /* plistChanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plistChanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E81D4A25E7963300663DD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1E81D4C25E7963300663DD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,7 +69,9 @@
 				E1E81D4A25E7963300663DD0 /* AppDelegate.swift */,
 				E1E81D4C25E7963300663DD0 /* ViewController.swift */,
 				E11E62FC25ECA0E2005A21CE /* plistPack.py */,
+				E19145592616D13F00FF2056 /* plistChanger */,
 				E11E62FB25ECA0E2005A21CE /* plistUnpack.py */,
+				E191455C2616D14E00FF2056 /* plistChanger */,
 				E1E81D4E25E7963500663DD0 /* Assets.xcassets */,
 				E1E81D5025E7963500663DD0 /* Main.storyboard */,
 				E1E81D5325E7963500663DD0 /* Info.plist */,
@@ -141,6 +147,8 @@
 			files = (
 				E1E81D4F25E7963500663DD0 /* Assets.xcassets in Resources */,
 				E11E62FD25ECA0E2005A21CE /* plistUnpack.py in Resources */,
+				E191455D2616D14E00FF2056 /* plistChanger in Resources */,
+				E191455A2616D14000FF2056 /* plistChanger in Resources */,
 				E11E62FE25ECA0E2005A21CE /* plistPack.py in Resources */,
 				E1E81D5225E7963500663DD0 /* Main.storyboard in Resources */,
 			);

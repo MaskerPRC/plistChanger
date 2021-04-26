@@ -254,29 +254,43 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                                     let y = CGFloat(NSString(string: String(list[1])).floatValue)
                                     let width = CGFloat(NSString(string: String(list[2])).floatValue)
                                     let height = CGFloat(NSString(string: String(list[3])).floatValue)
-                                    let newImage: NSImage = NSImage(size: NSSize(width: width, height: height))
-                                    let clipRect = NSRect(x: 0, y: 0, width: width, height: height)
-                                    let rect = CGRect(x: -x, y: y-data.size.height+height, width: data.size.width, height: data.size.height)
+                                   
+                                    
+                                    
+                                    var newImage = NSImage()
+                                        
+                                    var rect = CGRect()
+                                    var clipRect = NSRect()
+                                    
+                                    if let textureRotated = frame["rotated"] as? Bool, textureRotated {
+                                        rect = CGRect(x: -x, y: y-data.size.height+width, width: data.size.width, height: data.size.height)
+                                        newImage = NSImage(size: NSSize(width: height, height: width))
+                                        clipRect = NSRect(x: 0, y: 0, width: height, height: width)
+                                    } else {
+                                        rect = CGRect(x: -x, y: y-data.size.height+height, width: data.size.width, height: data.size.height)
+                                        newImage = NSImage(size: NSSize(width: width, height: height))
+                                        clipRect = NSRect(x: 0, y: 0, width: width, height: height)
+                                    }
+//
                                     newImage.lockFocus()
                                     data.draw(in: rect)
                                     let path = NSBezierPath(rect: clipRect)
                                     path.addClip()
                                     newImage.unlockFocus()
-                                    if let textureRotated = frame["textureRotated"] as? Bool, textureRotated {
+                                    if let textureRotated = frame["rotated"] as? Bool, textureRotated {
                                         // 图片方向调换
-                                        let rotateImage: NSImage = NSImage(size: NSSize(width: height, height: width))
+                                        let rotateImage: NSImage = NSImage(size: NSSize(width: width, height: height))
                                         rotateImage.lockFocus()
                                         let rorate = NSAffineTransform()
                                         rorate.rotate(byDegrees: 90)
                                         rorate.concat()
-                                        newImage.draw(in: CGRect(x: 0, y: -height, width: width, height: height))
+                                        newImage.draw(in: CGRect(x: 0, y: -width, width: height, height: width))
                                         rotateImage.unlockFocus()
-                                    
+
                                         nowImgs.append(rotateImage)
                                         dataList.append(ImageItem(image: rotateImage, name: name))
                                     } else {
-                                        
-                                            nowImgs.append(newImage)
+                                        nowImgs.append(newImage)
                                         dataList.append(ImageItem(image: newImage, name: name))
                                     }
                                 }

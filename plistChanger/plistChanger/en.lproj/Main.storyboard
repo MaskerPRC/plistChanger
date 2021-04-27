@@ -830,7 +830,8 @@
                                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uN6-Mv-f3W">
                                                                             <rect key="frame" x="3" y="3" width="144" height="84"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="UBb-nw-9uX"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="left" imageScaling="proportionallyDown" id="UBb-nw-9uX"/>
+                                                                            <color key="contentTintColor" name="selectedMenuItemTextColor" catalog="System" colorSpace="catalog"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                     <connections>
@@ -847,6 +848,7 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
+                                            <color key="backgroundColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
                                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="BLq-nH-zge">
                                             <rect key="frame" x="1" y="389" width="113" height="16"/>

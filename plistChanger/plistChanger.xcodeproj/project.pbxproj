@@ -23,8 +23,8 @@
 		E11E62F625EA99DC005A21CE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E11E62FB25ECA0E2005A21CE /* plistUnpack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistUnpack.py; sourceTree = "<group>"; };
 		E11E62FC25ECA0E2005A21CE /* plistPack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = plistPack.py; sourceTree = "<group>"; };
-		E19145592616D13F00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; name = plistChanger; sourceTree = "<group>"; };
-		E191455C2616D14E00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; name = plistChanger; sourceTree = "<group>"; };
+		E19145592616D13F00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; path = plistChanger; sourceTree = "<group>"; };
+		E191455C2616D14E00FF2056 /* plistChanger */ = {isa = PBXFileReference; lastKnownFileType = folder; path = plistChanger; sourceTree = "<group>"; };
 		E1E81D4725E7963300663DD0 /* plistChanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = plistChanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E81D4A25E7963300663DD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1E81D4C25E7963300663DD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -232,7 +232,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -287,7 +287,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

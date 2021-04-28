@@ -193,9 +193,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let view: NSTableView = notification.object as! NSTableView;
         if view.tag == 2  {
             let index = view.selectedRow
-            let item = self.dataList[index];
-            imgShow.image = item.image
-            return
+            if index >= 0 {
+                let item = self.dataList[index];
+                imgShow.image = item.image
+                return
+            }
         }
         let index = view.selectedRow
         if index > -1 {
@@ -297,54 +299,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                             }
                         }
                     }
-                    //MARK: 解析SpriteKit类型的plist
-                } else if let images = plistData["images"] as? NSArray {
-                    for image in images {
-                        if let imageDict = image as? NSDictionary {
-                            if let subimages = imageDict["subimages"] as? NSArray {
-                                dataList.removeAll()
-                                for subimage in subimages {
-                                    if let subDict = subimage as? NSDictionary {
-                                        if let textureRect = subDict["textureRect"] as? String {
-                                            let list = textureRect.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "").split(separator: ",")
-                                            if list.count >= 4, let name = subDict["name"] as? String {
-                                                let x = CGFloat(NSString(string: String(list[0])).floatValue)
-                                                let y = CGFloat(NSString(string: String(list[1])).floatValue)
-                                                let width = CGFloat(NSString(string: String(list[2])).floatValue)
-                                                let height = CGFloat(NSString(string: String(list[3])).floatValue)
-                                                let newImage: NSImage = NSImage(size: NSSize(width: width, height: height))
-                                                let clipRect = NSRect(x: 0, y: 0, width: width, height: height)
-                                                let rect = CGRect(x: -x, y: y-data.size.height+height, width: data.size.width, height: data.size.height)
-                                                newImage.lockFocus()
-                                                data.draw(in: rect)
-                                                let path = NSBezierPath(rect: clipRect)
-                                                path.addClip()
-                                                newImage.unlockFocus()
-                                                if let textureRotated = subDict["textureRotated"] as? Bool, textureRotated {
-                                                    // 图片方向调换
-                                                    let rotateImage: NSImage = NSImage(size: NSSize(width: height, height: width))
-                                                    rotateImage.lockFocus()
-                                                    let rorate = NSAffineTransform()
-                                                    rorate.rotate(byDegrees: 90)
-                                                    rorate.concat()
-                                                    newImage.draw(in: CGRect(x: 0, y: -height, width: width, height: height))
-                                                    rotateImage.unlockFocus()
-                                                    
-                                                    
-                                                        nowImgs.append(rotateImage)
-                                                    dataList.append(ImageItem(image: rotateImage, name: name))
-                                                } else {
-                                                    
-                                                        nowImgs.append(newImage)
-                                                    dataList.append(ImageItem(image: newImage, name: name))
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -402,8 +356,8 @@ extension ViewController: DestinationViewDelegate {
         let shutil = Python.import("shutil")
         let pkgutil = Python.import("pkgutil")
         let os = Python.import("os")
-        let Image = Python.import("Image")
-        let etree = Python.import("xml.etree")
+        let Image = Python.import("PIL.Image")
+        let etree = Python.import("xml.etree.ElementTree")
         let plistPack = Python.import("plistPack")
         let plistUnpack = Python.import("plistUnpack")
        
@@ -417,7 +371,42 @@ extension ViewController: DestinationViewDelegate {
 //            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
 //            runPythonCode(dirPath: "/Users/songjiaheng/Documents/", plistPath: plistPath!)
 //            shell("python ~/Documents/plistUnpack.py "+plistPath!)
-            shell("cp "+imageUrl.path + " " + plistPath!)
+            let pos = plistPath!.positionOf(sub: ".plist")
+            var UnpackPath = (plistPath as! NSString).substring(to: pos);
+            let pos1 = UnpackPath.positionOf(sub: "/", backwards: true)
+            var UnpackPrefixName = (UnpackPath as! NSString).substring(from: pos1+1);
+//            let pngNamePos = imageUrl.path.positionOf(sub: ".")
+//            var pngName = (imageUrl.path as! NSString).substring(to: pngNamePos);
+            var file_name = NSURL(fileURLWithPath: imageUrl.path).lastPathComponent!
+//            fileManager.copyItem(atPath: imageUrl.path, toPath: UnpackPath)
+//            shell("cp "+imageUrl.path + " " + UnpackPath+"/")
+            let fileManager = FileManager.default
+            let homeDirectory = NSHomeDirectory()
+            let srcUrl = imageUrl.path
+            
+            if (indexImage == 0) {
+                //未选中，表示要添加
+                let toUrl = UnpackPath+"/"+UnpackPrefixName+"_"+file_name
+                if fileManager.fileExists(atPath: toUrl) {
+                    try! fileManager.removeItem(atPath: toUrl)
+                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                }
+                else {
+                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                }
+            } else {
+                let toUrl = UnpackPath+"/"+dataList[indexImage].name
+                //未选中，表示要覆盖，忽略拖动文件名
+                if fileManager.fileExists(atPath: toUrl) {
+                    try! fileManager.removeItem(atPath: toUrl)
+                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                }
+                else {
+                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                }
+            }
+            
+            plistPack.doIt(UnpackPath, sys, shutil, pkgutil, os, Image, etree)
 //            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
            
@@ -426,7 +415,7 @@ extension ViewController: DestinationViewDelegate {
             table_view.reloadData()
             table_view.selectRowIndexes(IndexSet(integer: indexPlist), byExtendingSelection: false)
 //            nowImgs = []
-//            iimg_list.reloadData()
+            iimg_list.reloadData()
             imgShow.image = NSImage()
         }
         

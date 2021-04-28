@@ -11,7 +11,7 @@ from xml.etree import ElementTree
 
 def Red(str):
     return "\033[31m%s\033[0m"%(str)
-def Orange(str):
+def Orange(str):/Users/songjiaheng/script/plistPack.py
     return "\033[33m%s\033[0m"%(str)
 def Purple(str):
     return "\033[35m%s\033[0m"%(str)

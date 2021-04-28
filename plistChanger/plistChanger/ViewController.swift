@@ -110,8 +110,8 @@ class DestinationPlistView: NSView {
         delegate?.processPlist(files)
         return true
     }
+    
 }
-
 class CustomCellTableViewCell: NSTableCellView {
 
 
@@ -265,6 +265,20 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         self.view.window!.title = "Plist换皮助手";
     }
     
+    override func keyDown(with theEvent: NSEvent) {
+        if isDeleteKeyDownEvent(theEvent: theEvent) {
+            //删除当前项
+            tihuan(NSURL() as URL, true)
+        }
+    }
+    private func isDeleteKeyDownEvent(theEvent: NSEvent) -> Bool {
+        let char = theEvent.keyCode
+        if char == 51 {
+            return true
+        }
+        return false
+    }
+    
     private func configDestinationView() {
         drop1.delegate = self
         imgDrag.delegate = self
@@ -370,6 +384,9 @@ func shell(_ args: String...) -> Int32 {
 extension ViewController: DestinationViewDelegate {
     
     func processImage(_ imageUrl: URL) {
+        tihuan(imageUrl)
+    }
+    func tihuan(_ imageUrl: URL, _ isDelet: Bool = false) {
         // tipsTextField.stringValue = String("\(Int(image.size.width))x\(Int(image.size.height))")
 //        destinationImageView.image = image
         // 只要有拖动，就将拖动行为记录，放入堆栈中，异步去将堆栈行为执行
@@ -406,45 +423,51 @@ extension ViewController: DestinationViewDelegate {
         
         if indexPlist != -1 {
             let plistPath = URL(string: dataPlist[indexPlist])?.path
-            
             plistUnpack.doIt(plistPath, sys, shutil, pkgutil, os, Image, etree)
-//            var plistFolderPath = URL(string: dataPlist[indexPlist])?.path
-//            runPythonCode(dirPath: "/Users/songjiaheng/Documents/", plistPath: plistPath!)
-//            shell("python ~/Documents/plistUnpack.py "+plistPath!)
             let pos = plistPath!.positionOf(sub: ".plist")
             var UnpackPath = (plistPath as! NSString).substring(to: pos);
             let pos1 = UnpackPath.positionOf(sub: "/", backwards: true)
             var UnpackPrefixName = (UnpackPath as! NSString).substring(from: pos1+1);
-//            let pngNamePos = imageUrl.path.positionOf(sub: ".")
-//            var pngName = (imageUrl.path as! NSString).substring(to: pngNamePos);
-            var file_name = NSURL(fileURLWithPath: imageUrl.path).lastPathComponent!
-//            fileManager.copyItem(atPath: imageUrl.path, toPath: UnpackPath)
-//            shell("cp "+imageUrl.path + " " + UnpackPath+"/")
+            
             let fileManager = FileManager.default
             let homeDirectory = NSHomeDirectory()
-            let srcUrl = imageUrl.path
+           
             
-            if (indexImage == -1) {
-                //未选中，表示要添加
-                let toUrl = UnpackPath+"/"+UnpackPrefixName+"_"+file_name
-                if fileManager.fileExists(atPath: toUrl) {
-                    try! fileManager.removeItem(atPath: toUrl)
-                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
-                }
-                else {
-                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
-                }
-            } else {
-                let toUrl = UnpackPath+"/"+dataList[indexImage].name
-                //未选中，表示要覆盖，忽略拖动文件名
-                if fileManager.fileExists(atPath: toUrl) {
-                    try! fileManager.removeItem(atPath: toUrl)
-                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
-                }
-                else {
-                    try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+            if isDelet {
+                if (indexImage != -1) {
+                    let toUrl = UnpackPath+"/"+dataList[indexImage].name
+                    //未选中，表示要覆盖，忽略拖动文件名
+                    if fileManager.fileExists(atPath: toUrl) {
+                        try! fileManager.removeItem(atPath: toUrl)
+                    }
                 }
             }
+            else {
+                var file_name = NSURL(fileURLWithPath: imageUrl.path).lastPathComponent!
+                let srcUrl = imageUrl.path
+                if (indexImage == -1) {
+                    //未选中，表示要添加
+                    let toUrl = UnpackPath+"/"+UnpackPrefixName+"_"+file_name
+                    if fileManager.fileExists(atPath: toUrl) {
+                        try! fileManager.removeItem(atPath: toUrl)
+                        try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                    }
+                    else {
+                        try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                    }
+                } else {
+                    let toUrl = UnpackPath+"/"+dataList[indexImage].name
+                    //未选中，表示要覆盖，忽略拖动文件名
+                    if fileManager.fileExists(atPath: toUrl) {
+                        try! fileManager.removeItem(atPath: toUrl)
+                        try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                    }
+                    else {
+                        try! fileManager.copyItem(atPath: srcUrl, toPath: toUrl)
+                    }
+                }
+            }
+            
             
             plistPack.doIt(UnpackPath, sys, shutil, pkgutil, os, Image, etree)
 //            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)

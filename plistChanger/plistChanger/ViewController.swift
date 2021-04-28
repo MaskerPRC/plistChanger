@@ -155,25 +155,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
 
     override func viewDidLoad() {
-        PythonLibrary.useVersion(2,7)
         super.viewDidLoad();
+        
+        PythonLibrary.useVersion(3,7)
         configDestinationView()
         table_view.reloadData()
         iimg_list.reloadData()
+        
         buildPyFile()
     }
-    
-    func runPythonCode(dirPath: String, plistPath:String){
-            let sys = Python.import("sys")
-            sys.path.append(dirPath)
-            let os = Python.import("os")
-            let pkgutil = Python.import("pkgutil")
-        let PIL1 = Python.import("PIL")
-        
-        let etree = Python.import("xml.etree")
-            let plistUnpack = Python.import("plistUnpack")
-        let response = plistUnpack.doIt(plistPath, os, pkgutil, PIL1, etree)
-        }
     
     internal func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.tag == 2 {
@@ -408,7 +398,6 @@ extension ViewController: DestinationViewDelegate {
         let tmpDir2 = NSHomeDirectory() + "/"
         let cwd = tmpDir2
         print("script run from:\n" + cwd)
-        
         
         let sys = Python.import("sys")
           sys.path.append(cwd)
@@ -802,11 +791,6 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
     Image = Image1
     ElementTree = etree1
 
-    if not pkgutil.find_loader("PIL"):
-        print Orange("请输入Mac登录密码安装插件需要的依赖库:")
-        if not os.path.exists("/usr/local/bin/pip"):
-            os.system("sudo easy_install pip")
-        os.system("sudo pip install Pillow")
 
     file_path = genPngFromPlist(fullpath)
     print Green("解包完成，已创建同名文件夹，请右键点击“Refresh”刷新目录列表！")

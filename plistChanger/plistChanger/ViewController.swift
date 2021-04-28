@@ -141,6 +141,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     var dataList: [ImageItem] = []
     var plistData: NSDictionary = [:]
     var imageData: NSImage?
+    var curSelectImgIndex = -1
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.tag == 2 {
             //根据当前选中的plist文件，获取图片个数
@@ -176,6 +177,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     internal func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.tag == 2 {
             let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? CustomCellTableViewCell
+            
             cell?.myImageView?.image = nowImgs[row]
             cell?.myTextView?.stringValue = dataList[row].name
             return cell;
@@ -188,11 +190,47 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             return cell;
         }
     }
+    func setChange() {
+        
+        if table_view.tag == 2  {
+            let index = table_view.selectedRow
+            
+            curSelectImgIndex = -1
+            if index >= 0 {
+                let item = self.dataList[index];
+                imgShow.image = item.image
+                return
+            }
+        }
+        let index = table_view.selectedRow
+        
+        curSelectImgIndex = -1
+        if index > -1 {
+            let fileUrl = self.dataPlist[index];
+            let pos = fileUrl.positionOf(sub: ".plist")
+            var imgFilePath = (fileUrl as NSString).substring(to: pos);
+            imgFilePath += ".png";
+            
+            parseImage(url: URL(string: imgFilePath)!)
+            parsePlist(url: URL(string: fileUrl)!)
+            nowImgs = []
+            plitImage()
+            
+            
+            iimg_list.reloadData()
+        }
+        else {
+            nowImgs = []
+            iimg_list.reloadData()
+        }
+    }
     
     func tableViewSelectionIsChanging(_ notification: Notification) {
         let view: NSTableView = notification.object as! NSTableView;
         if view.tag == 2  {
             let index = view.selectedRow
+            
+            curSelectImgIndex = index
             if index >= 0 {
                 let item = self.dataList[index];
                 imgShow.image = item.image
@@ -200,6 +238,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             }
         }
         let index = view.selectedRow
+        
+        curSelectImgIndex = -1
         if index > -1 {
             let fileUrl = self.dataPlist[index];
             let pos = fileUrl.positionOf(sub: ".plist")
@@ -339,7 +379,7 @@ extension ViewController: DestinationViewDelegate {
         
         let indexPlist = table_view.selectedRow
         //获取plist路径
-        let indexImage = iimg_list.selectedRow
+        let indexImage = curSelectImgIndex
         //被替换的png路径
         //替换png的路径
         
@@ -364,7 +404,7 @@ extension ViewController: DestinationViewDelegate {
         print(Python.version)
         
         
-        if indexPlist != -1 && indexImage != -1 {
+        if indexPlist != -1 {
             let plistPath = URL(string: dataPlist[indexPlist])?.path
             
             plistUnpack.doIt(plistPath, sys, shutil, pkgutil, os, Image, etree)
@@ -384,7 +424,7 @@ extension ViewController: DestinationViewDelegate {
             let homeDirectory = NSHomeDirectory()
             let srcUrl = imageUrl.path
             
-            if (indexImage == 0) {
+            if (indexImage == -1) {
                 //未选中，表示要添加
                 let toUrl = UnpackPath+"/"+UnpackPrefixName+"_"+file_name
                 if fileManager.fileExists(atPath: toUrl) {
@@ -412,10 +452,10 @@ extension ViewController: DestinationViewDelegate {
            
             //开始下一步的替换
             
-            table_view.reloadData()
             table_view.selectRowIndexes(IndexSet(integer: indexPlist), byExtendingSelection: false)
+            setChange()
 //            nowImgs = []
-            iimg_list.reloadData()
+//            iimg_list.reloadData()
             imgShow.image = NSImage()
         }
         

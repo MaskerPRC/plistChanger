@@ -405,7 +405,8 @@ extension ViewController: DestinationViewDelegate {
         
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
-        let cwd = "./"
+        let tmpDir2 = NSHomeDirectory() + "/"
+        let cwd = tmpDir2
         print("script run from:\n" + cwd)
         
         
@@ -708,7 +709,9 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
 """
         
         let fileName = "学习笔记.text"
-        let cwd = "./"
+        let tmpDir2 = NSHomeDirectory()+"/"
+
+        let cwd = tmpDir2
         
         let msg2 = """
 #!/usr/bin/env python
@@ -812,13 +815,16 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
         let fileManager = FileManager.default
         let path = cwd + "plistPack.py"
         let path2 = cwd + "plistUnpack.py"
+        if fileManager.fileExists(atPath: cwd) {
+            
+        } else {
+            fileManager.createFile(atPath: cwd, contents:nil, attributes:nil)
+        }
         
         if fileManager.fileExists(atPath: path) {
             
         } else {
             fileManager.createFile(atPath: path, contents:nil, attributes:nil)
-//            let handle = FileHandle(forWritingAtPath:path)
-//            handle?.write(msg.data(using: String.Encoding.utf8)!)
             try! msg.write(toFile: path, atomically: true, encoding: .utf8)
         }
         
@@ -826,9 +832,7 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
             
         } else {
             fileManager.createFile(atPath: path2, contents:nil, attributes:nil)
-//            let handle = FileHandle(forWritingAtPath:path2)
             try! msg2.write(toFile: path2, atomically: true, encoding: .utf8)
-//            handle?.write(msg2.data(using: String.Encoding.utf8)!)
         }
     }
 }

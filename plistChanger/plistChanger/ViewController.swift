@@ -347,7 +347,7 @@ extension ViewController: DestinationViewDelegate {
         
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
-        let cwd = "/Users/songjiaheng/script/"
+        let cwd = "/Users/script/"
         print("script run from:\n" + cwd)
         
         

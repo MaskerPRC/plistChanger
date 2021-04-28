@@ -160,6 +160,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         configDestinationView()
         table_view.reloadData()
         iimg_list.reloadData()
+        buildPyFile()
     }
     
     func runPythonCode(dirPath: String, plistPath:String){
@@ -581,4 +582,254 @@ extension NSImage {
 ////
 //           return image
 //       }
+}
+
+
+extension ViewController {
+    public func buildPyFile() {
+        let msg = """
+#!/usr/bin/env python
+# coding: utf-8
+# title: Plist打包
+# filters: subfolder
+# options: clear global
+# order: 210
+# icon: Icons/unpack.png
+# submenu: remove 打包并删除文件夹
+# submenu: keep 打包并保留文件夹
+
+sys = None
+shutil = None
+pkgutil = None
+os = None
+Image = None
+ElementTree = None
+def Red(str):
+    return "\\033[31m%s\\033[0m"%(str)
+def Orange(str):
+    return "\\033[33m%s\\033[0m"%(str)
+def Purple(str):
+    return "\\033[35m%s\\033[0m"%(str)
+def Green(str):
+    return "\\033[32m%s\\033[0m"%(str)
+
+TexturePackerPath = "/Applications/TexturePacker.app/Contents/MacOS/TexturePacker"
+def CheckTexturePacker():
+    if not os.path.exists(TexturePackerPath):
+        print Red("打包失败，没有找到TexturePacker，请将TexturePacker软件拖到”应用程序“（Applications）目录下！")
+        exit(-1)
+
+def TexturePackerPack(fullpath, outputPlist, maxSize):
+    if not outputPlist:
+        outputPlist = "/dev/null"
+        outputPng = "/dev/null"
+        redirPipe = "1>/dev/null 2>&1"
+    else:
+        outputPng = outputPlist.replace(".plist", ".png")
+        redirPipe = ""
+    cmd = (TexturePackerPath + " --smart-update " + \\
+        "--texture-format png " + \\
+        "--format cocos2d " + \\
+        "--data \\"%s\\" " + \\
+        "--sheet \\"%s\\" " + \\
+        "--algorithm MaxRects " + \\
+        "--maxrects-heuristics best " + \\
+        "--enable-rotation " + \\
+        "--scale 1 " + \\
+        "--shape-padding 2 " + \\
+        "--border-padding 2 " + \\
+        "--max-size %d " + \\
+        "--opt RGBA8888 " + \\
+        "--trim " + \\
+        "--size-constraints AnySize " + \\
+        "\\"%s\\"/*.png %s") \\
+        %(outputPlist, outputPng, maxSize, fullpath, redirPipe)
+    ret = os.system(cmd)
+    return ret >> 8
+
+def GetMaxSizeOfTexture(fullpath):
+    sizeArray = [256, 512, 1024, 2048]
+    for size in sizeArray:
+        ret = TexturePackerPack(fullpath, None, size)
+        if ret == 0:
+            return size
+
+def PackTextureToPlist(fullpath):
+    size = GetMaxSizeOfTexture(fullpath)
+    if not size:
+        print Red("打包失败，图片资源过大，无法装进2048x2048的图集里，请重新整理图集后再试")
+        exit(-1)
+    parentPath, dirName = os.path.split(fullpath)
+    outputPlist = os.path.join(parentPath, dirName + ".plist")
+    ret = TexturePackerPack(fullpath, outputPlist, size)
+    return ret
+
+def CheckFolder(fullpath):
+    for name in os.listdir(fullpath):
+        path = os.path.join(fullpath, name)
+        if os.path.isdir(path):
+            if name.startswith("."): continue
+            print Red("打包失败，文件夹下含有其他文件夹，打包要求文件夹下只能含有png文件")
+            exit(-1)
+        else:
+            if name.startswith("."):
+                os.remove(path) #删除隐藏临时文件
+            elif not name.endswith(".png"):
+                print Red("打包失败，文件夹下含有其他类型的文件，打包要求文件夹下只能含有png类型的文件")
+                exit(-1)
+            elif " " in name:
+                print Red("打包失败，文件名中包含空格")
+                exit(-1)
+
+def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
+    global Image
+    global sys
+    global ElementTree
+    global shutil
+    global pkgutil
+    global os
+    
+    sys = sys1
+    shutil = shutil1
+    pkgutil = pkgutil1
+    os = os1
+    Image = Image1
+    ElementTree = etree1
+    isKeep = 1
+    CheckTexturePacker()
+    CheckFolder(fullpath)
+    print Orange("正在打包，请稍后...")
+    ret = PackTextureToPlist(fullpath)
+    if ret == 0 and not False:
+        shutil.rmtree(fullpath)
+        print Green("打包完成，原文件夹已删除，请右键点击“Refresh”刷新目录列表！")
+    else:
+        print Green("打包完成，请右键点击“Refresh”刷新目录列表！")
+"""
+        
+        let fileName = "学习笔记.text"
+        let cwd = "/Users/script/"
+        
+        let msg2 = """
+#!/usr/bin/env python
+# coding: utf-8
+# title: Plist解包
+# filters: plist
+# options: clear global
+# order: 210
+# icon: Icons/unpack.png
+
+
+sys = None
+shutil = None
+pkgutil = None
+os = None
+Image = None
+ElementTree = None
+def Red(str):
+    return "\\033[31m%s\\033[0m"%(str)
+def Orange(str):
+    return "\\033[33m%s\\033[0m"%(str)
+def Purple(str):
+    return "\\033[35m%s\\033[0m"%(str)
+def Green(str):
+    return "\\033[32m%s\\033[0m"%(str)
+
+def tree_to_dict(tree):
+    d = {}
+    for index, item in enumerate(tree):
+        if item.tag == 'key':
+            if tree[index+1].tag == 'string':
+                d[item.text] = tree[index + 1].text
+            elif tree[index + 1].tag == 'true':
+                d[item.text] = True
+            elif tree[index + 1].tag == 'false':
+                d[item.text] = False
+            elif tree[index+1].tag == 'dict':
+                d[item.text] = tree_to_dict(tree[index+1])
+    return d
+
+def genPngFromPlist(plist_filename):
+    
+    file_path = plist_filename.replace('.plist', '')
+    big_image = Image.open(plist_filename.replace('.plist', '.png'))
+    root = ElementTree.fromstring(open(plist_filename, 'r').read())
+    plist_dict = tree_to_dict(root[0])
+    to_list = lambda x: x.replace('{','').replace('}','').split(',')
+    for k,v in plist_dict['frames'].items():
+        rectlist = to_list(v['frame'])
+        width = int( rectlist[3] if v['rotated'] else rectlist[2] )
+        height = int( rectlist[2] if v['rotated'] else rectlist[3] )
+        box=(
+            int(rectlist[0]),
+            int(rectlist[1]),
+            int(rectlist[0]) + width,
+            int(rectlist[1]) + height,
+            )
+        sizelist = [ int(x) for x in to_list(v['sourceSize'])]
+        rect_on_big = big_image.crop(box)
+        if v['rotated']:
+            rect_on_big = rect_on_big.rotate(90, 0, True)
+ 
+        result_image = Image.new('RGBA', sizelist, (0,0,0,0))
+        sourceColorRect = [ int(x) for x in to_list(v['sourceColorRect'])]
+ 
+        sourceColorRect[2] += sourceColorRect[0]
+        sourceColorRect[3] += sourceColorRect[1]
+        result_image.paste(rect_on_big, sourceColorRect, mask=0)
+
+        if not os.path.isdir(file_path):
+            os.mkdir(file_path)
+        outfile = (file_path+'/' + k)
+        result_image.save(outfile)
+    return file_path
+
+def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
+    global Image
+    global sys
+    global ElementTree
+    global shutil
+    global pkgutil
+    global os
+    
+    sys = sys1
+    shutil = shutil1
+    pkgutil = pkgutil1
+    os = os1
+    Image = Image1
+    ElementTree = etree1
+
+    if not pkgutil.find_loader("PIL"):
+        print Orange("请输入Mac登录密码安装插件需要的依赖库:")
+        if not os.path.exists("/usr/local/bin/pip"):
+            os.system("sudo easy_install pip")
+        os.system("sudo pip install Pillow")
+
+    file_path = genPngFromPlist(fullpath)
+    print Green("解包完成，已创建同名文件夹，请右键点击“Refresh”刷新目录列表！")
+"""
+        
+        let fileManager = FileManager.default
+        let file = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
+        let path = cwd + "plistPack.py"
+        let path2 = cwd + "plistUnpack.py"
+        
+        if fileManager.fileExists(atPath: path) {
+            
+        } else {
+            fileManager.createFile(atPath: path, contents:nil, attributes:nil)
+//            let handle = FileHandle(forWritingAtPath:path)
+//            handle?.write(msg.data(using: String.Encoding.utf8)!)
+            try! msg.write(toFile: path, atomically: true, encoding: .utf8)
+        }
+        
+        if fileManager.fileExists(atPath: path2) {
+            
+        } else {
+            fileManager.createFile(atPath: path2, contents:nil, attributes:nil)
+//            let handle = FileHandle(forWritingAtPath:path2)
+            try! msg2.write(toFile: path2, atomically: true, encoding: .utf8)
+//            handle?.write(msg2.data(using: String.Encoding.utf8)!)
+        }
+    }
 }

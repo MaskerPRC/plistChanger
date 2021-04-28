@@ -405,7 +405,7 @@ extension ViewController: DestinationViewDelegate {
         
 //        var curPlistImage =
         //解包->文件传递到解包目录替换->打包->删除原目录
-        let cwd = "/Users/script/"
+        let cwd = "./"
         print("script run from:\n" + cwd)
         
         
@@ -708,7 +708,7 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
 """
         
         let fileName = "学习笔记.text"
-        let cwd = "/Users/script/"
+        let cwd = "./"
         
         let msg2 = """
 #!/usr/bin/env python
@@ -810,7 +810,6 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
 """
         
         let fileManager = FileManager.default
-        let file = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
         let path = cwd + "plistPack.py"
         let path2 = cwd + "plistUnpack.py"
         

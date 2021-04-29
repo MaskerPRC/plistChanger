@@ -155,9 +155,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
 
     override func viewDidLoad() {
+        PythonLibrary.useVersion(3)
         super.viewDidLoad();
         
-        PythonLibrary.useVersion(2,7)
         configDestinationView()
         table_view.reloadData()
         iimg_list.reloadData()
@@ -476,7 +476,7 @@ extension ViewController: DestinationViewDelegate {
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
            
             //开始下一步的替换
-            
+            table_view.reloadData()
             table_view.selectRowIndexes(IndexSet(integer: indexPlist), byExtendingSelection: false)
             setChange()
 //            nowImgs = []
@@ -650,7 +650,7 @@ def TexturePackerPack(fullpath, outputPlist, maxSize):
     return ret >> 8
 
 def GetMaxSizeOfTexture(fullpath):
-    sizeArray = [256, 512, 768, 1024, 1280, 1536, 1792, 2048]
+    sizeArray = [256, 256+128, 512, 512+128, 768, 768+128, 1024, 1024+128, 1280, 1280+128, 1536, 1536+128, 1792, 1792+128, 2048]
     for size in sizeArray:
         ret = TexturePackerPack(fullpath, None, size)
         if ret == 0:

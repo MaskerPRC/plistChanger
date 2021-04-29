@@ -157,7 +157,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        PythonLibrary.useVersion(3,7)
+        PythonLibrary.useVersion(2,7)
         configDestinationView()
         table_view.reloadData()
         iimg_list.reloadData()
@@ -640,7 +640,7 @@ def TexturePackerPack(fullpath, outputPlist, maxSize):
     return ret >> 8
 
 def GetMaxSizeOfTexture(fullpath):
-    sizeArray = [256, 512, 1024, 2048]
+    sizeArray = [64, 128, 256, 512, 1024, 1536, 2048]
     for size in sizeArray:
         ret = TexturePackerPack(fullpath, None, size)
         if ret == 0:

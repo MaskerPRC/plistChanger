@@ -461,8 +461,10 @@ extension ViewController: DestinationViewDelegate {
                 }
             }
             
-            
-            plistPack.doIt(UnpackPath, sys, shutil, pkgutil, os, Image, etree)
+            if dataList.count > 1 {
+                plistPack.doIt(UnpackPath, sys, shutil, pkgutil, os, Image, etree)
+            }
+           
 //            shell("python "+NSHomeDirectory()+"/py/plistPack.py "+plistPath!)
             //重新加载当前plist到tableview，并刷新imglistview，取消当前选中的图片。
            

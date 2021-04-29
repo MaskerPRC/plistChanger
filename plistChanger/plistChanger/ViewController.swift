@@ -174,10 +174,16 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             return cell;
         }
         else {
-            let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+            let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? CustomCellTableViewCell
             let content = getData()[row];
             let pos = content.positionOf(sub: "/Resources/")
-            cell?.textField?.stringValue = (content as NSString).substring(from: pos+11);
+            let pos1 = content.positionOf(sub: ".plist")
+            var imgFilePath = (content as NSString).substring(to: pos1);
+            imgFilePath += ".png";
+            
+            parseImage(url: URL(string: imgFilePath)!)
+            cell?.myImageView?.image = imageData
+            cell?.myTextView?.stringValue = (content as NSString).substring(from: pos+11);
             return cell;
         }
     }
@@ -199,6 +205,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if index > -1 {
             let fileUrl = self.dataPlist[index];
             let pos = fileUrl.positionOf(sub: ".plist")
+            
             var imgFilePath = (fileUrl as NSString).substring(to: pos);
             imgFilePath += ".png";
             
@@ -490,6 +497,7 @@ extension ViewController: DestinationPlistViewDelegate {
             let articleString = item.absoluteString
             dataPlist.append(articleString as String)
         }
+        
         table_view.reloadData()
 //        for item in files {
 //            let articleString = item.absoluteString

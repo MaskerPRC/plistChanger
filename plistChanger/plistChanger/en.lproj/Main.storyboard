@@ -716,20 +716,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iFa-4d-M9H" customClass="DestinationPlistView" customModule="plistChanger" customModuleProvider="target">
-                                        <rect key="frame" x="5" y="20" width="229" height="451"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="296" height="408"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="450" id="8DD-4T-RMB"/>
                                             <constraint firstAttribute="width" secondItem="iFa-4d-M9H" secondAttribute="height" multiplier="1:1" id="vNA-Hl-OGL"/>
                                         </constraints>
                                     </customView>
-                                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="67" horizontalPageScroll="10" verticalLineScroll="67" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRA-jG-ZJV">
+                                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="116" horizontalPageScroll="10" verticalLineScroll="116" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRA-jG-ZJV">
                                         <rect key="frame" x="0.0" y="2" width="123" height="406"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" id="A18-gx-tZU">
                                             <rect key="frame" x="1" y="0.0" width="121" height="405"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="65" rowSizeStyle="automatic" headerView="GN0-xi-Aa3" viewBased="YES" id="MCk-uM-cQY">
+                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="114" rowSizeStyle="automatic" headerView="GN0-xi-Aa3" viewBased="YES" id="MCk-uM-cQY">
                                                     <rect key="frame" x="0.0" y="0.0" width="121" height="380"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="10" height="2"/>
@@ -748,25 +748,29 @@
                                                             </textFieldCell>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
-                                                                <tableCellView id="4pU-s5-Fgp">
-                                                                    <rect key="frame" x="5" y="1" width="111" height="65"/>
+                                                                <tableCellView id="0fd-tU-zfH" customClass="CustomCellTableViewCell" customModule="plistChanger" customModuleProvider="target">
+                                                                    <rect key="frame" x="5" y="1" width="111" height="114"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dp5-W5-2cx">
-                                                                            <rect key="frame" x="2" y="3" width="107" height="57"/>
+                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wJq-QZ-yzH">
+                                                                            <rect key="frame" x="3" y="-11" width="112" height="78"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="left" imageScaling="proportionallyDown" id="AaP-Vx-Mzl"/>
+                                                                            <color key="contentTintColor" name="selectedMenuItemTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        </imageView>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5RK-gx-xlq">
+                                                                            <rect key="frame" x="5" y="32" width="111" height="79"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="charWrapping" sendsActionOnEndEditing="YES" title="Table View Cellfsfafafsfa" drawsBackground="YES" id="C0d-Yh-jZ0">
+                                                                            <textFieldCell key="cell" lineBreakMode="charWrapping" sendsActionOnEndEditing="YES" alignment="left" title="ImgName" id="TBU-FV-ZeA">
                                                                                 <font key="font" metaFont="system" size="10"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
-                                                                            <connections>
-                                                                                <action selector="onClickSel:" target="XfG-lQ-9wD" id="UJM-KH-B1K"/>
-                                                                            </connections>
                                                                         </textField>
                                                                     </subviews>
                                                                     <connections>
-                                                                        <outlet property="textField" destination="Dp5-W5-2cx" id="a2r-hF-0FP"/>
+                                                                        <outlet property="myImageView" destination="wJq-QZ-yzH" id="4af-Le-Y1d"/>
+                                                                        <outlet property="myTextView" destination="5RK-gx-xlq" id="qx2-en-E31"/>
                                                                     </connections>
                                                                 </tableCellView>
                                                             </prototypeCellViews>

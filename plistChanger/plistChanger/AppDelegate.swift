@@ -6,10 +6,13 @@
 //
 
 import Cocoa
-
+import PythonKit
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    override init() {
+          // Force the bridging code to load Python 3
+          PythonLibrary.useVersion(3)
+      }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
@@ -17,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        
         
     }
 

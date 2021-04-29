@@ -2,20 +2,11 @@
   "object": {
     "pins": [
       {
-        "package": "PerfectPython",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Python.git",
-        "state": {
-          "branch": "master",
-          "revision": "63589be903599f535f65b0967a05d5434af16ac4",
-          "version": null
-        }
-      },
-      {
         "package": "PythonKit",
         "repositoryURL": "https://github.com/pvieito/PythonKit.git",
         "state": {
           "branch": "master",
-          "revision": "2615c8921d58cf46117291f7aae280fbe6b56622",
+          "revision": "c77231820148515a77e9bba5016a57e5a88ef007",
           "version": null
         }
       }

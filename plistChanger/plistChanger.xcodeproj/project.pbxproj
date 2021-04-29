@@ -10,7 +10,6 @@
 		E11E62FD25ECA0E2005A21CE /* plistUnpack.py in Resources */ = {isa = PBXBuildFile; fileRef = E11E62FB25ECA0E2005A21CE /* plistUnpack.py */; };
 		E11E62FE25ECA0E2005A21CE /* plistPack.py in Resources */ = {isa = PBXBuildFile; fileRef = E11E62FC25ECA0E2005A21CE /* plistPack.py */; };
 		E11E630225ECA5B7005A21CE /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630125ECA5B7005A21CE /* PythonKit */; };
-		E11E630625ECA611005A21CE /* PerfectPython in Frameworks */ = {isa = PBXBuildFile; productRef = E11E630525ECA611005A21CE /* PerfectPython */; };
 		E191455A2616D14000FF2056 /* plistChanger in Resources */ = {isa = PBXBuildFile; fileRef = E19145592616D13F00FF2056 /* plistChanger */; };
 		E191455D2616D14E00FF2056 /* plistChanger in Resources */ = {isa = PBXBuildFile; fileRef = E191455C2616D14E00FF2056 /* plistChanger */; };
 		E1E81D4B25E7963300663DD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E81D4A25E7963300663DD0 /* AppDelegate.swift */; };
@@ -39,7 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E11E630625ECA611005A21CE /* PerfectPython in Frameworks */,
 				E11E630225ECA5B7005A21CE /* PythonKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +96,6 @@
 			name = plistChanger;
 			packageProductDependencies = (
 				E11E630125ECA5B7005A21CE /* PythonKit */,
-				E11E630525ECA611005A21CE /* PerfectPython */,
 			);
 			productName = plistChanger;
 			productReference = E1E81D4725E7963300663DD0 /* plistChanger.app */;
@@ -129,7 +126,6 @@
 			mainGroup = E1E81D3E25E7963300663DD0;
 			packageReferences = (
 				E11E630025ECA5B7005A21CE /* XCRemoteSwiftPackageReference "PythonKit" */,
-				E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */,
 			);
 			productRefGroup = E1E81D4825E7963300663DD0 /* Products */;
 			projectDirPath = "";
@@ -370,14 +366,6 @@
 				kind = branch;
 			};
 		};
-		E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/PerfectlySoft/Perfect-Python.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -385,11 +373,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E11E630025ECA5B7005A21CE /* XCRemoteSwiftPackageReference "PythonKit" */;
 			productName = PythonKit;
-		};
-		E11E630525ECA611005A21CE /* PerfectPython */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E11E630425ECA611005A21CE /* XCRemoteSwiftPackageReference "Perfect-Python" */;
-			productName = PerfectPython;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -629,7 +629,7 @@ def TexturePackerPack(fullpath, outputPlist, maxSize):
     return ret >> 8
 
 def GetMaxSizeOfTexture(fullpath):
-    sizeArray = [256, 512, 768, 1024, 1280, 1536, 1792, 2048]
+    sizeArray = [256, 256+128, 512, 512+128, 768, 768+128, 1024, 1024+128, 1280, 1280+128, 1536, 1536+128, 1792, 1792+128, 2048]
     for size in sizeArray:
         ret = TexturePackerPack(fullpath, None, size)
         if ret == 0:

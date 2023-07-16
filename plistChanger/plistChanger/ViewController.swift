@@ -679,7 +679,6 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
     ret = PackTextureToPlist(fullpath)
     if ret == 0 and not False:
         shutil.rmtree(fullpath)
-    else:
 """
         
         let fileName = "学习笔记.text"
@@ -769,14 +768,14 @@ def doIt(fullpath, sys1, shutil1, pkgutil1, os1, Image1, etree1):
             
         } else {
             fileManager.createFile(atPath: path, contents:nil, attributes:nil)
-            try! msg.write(toFile: path, atomically: true, encoding: .utf8)
         }
+        try! msg.write(toFile: path, atomically: true, encoding: .utf8)
         
         if fileManager.fileExists(atPath: path2) {
             
         } else {
             fileManager.createFile(atPath: path2, contents:nil, attributes:nil)
-            try! msg2.write(toFile: path2, atomically: true, encoding: .utf8)
         }
+        try! msg2.write(toFile: path2, atomically: true, encoding: .utf8)
     }
 }

@@ -70,11 +70,11 @@ def genPngFromPlist(plist_filename):
 def doIt(fullpath):
 
     if not pkgutil.find_loader("PIL"):
-        print Orange("请输入Mac登录密码安装插件需要的依赖库:")
+        print(Orange("请输入Mac登录密码安装插件需要的依赖库:"))
         if not os.path.exists("/usr/local/bin/pip"):
             os.system("sudo easy_install pip")
         os.system("sudo pip install Pillow")
 
     file_path = genPngFromPlist(fullpath)
     os.system("open \"%s\""%file_path)
-    print Green("解包完成，已创建同名文件夹，请右键点击“Refresh”刷新目录列表！")
+    print(Green("解包完成，已创建同名文件夹，请右键点击“Refresh”刷新目录列表！"))
